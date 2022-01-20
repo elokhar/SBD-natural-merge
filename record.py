@@ -31,6 +31,10 @@ class record:
         dT_bytes = self.dT.to_bytes(INT_SIZE, byteorder = "big")
         return c_bytes + m_bytes + dT_bytes
 
+    @staticmethod
+    def to_bytes(self):
+        return bytes(self)
+
     @classmethod
     def from_bytes(cls, record_bytes):
         c = int.from_bytes(record_bytes[:INT_SIZE], byteorder = "big")
