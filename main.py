@@ -47,7 +47,7 @@ while(record != None):
     record = read_record(tape2)
 tape2.close()
 
-print("also database:")
+print("sorted database:")
 record = read_record(database)
 while(record != None):
     print(record)
