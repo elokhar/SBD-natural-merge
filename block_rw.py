@@ -58,17 +58,17 @@ def set_buffer_mode(buffer_number, mode, file):
     if(buffers_modes[buffer_number]==mode):
         pass
     else:
-        if(mode=="read"):   #if mode changed to "read"
+        if(mode=="read" or mode=="read_from_beginning"):   #if mode changed to "read"
             write_buffer_to_file(file, buffer_number)
             file.seek(0)        #move file cursor to the beginning of the file
             buffers[buffer_number].clear()
-            buffers_modes[buffer_number] = mode
+            buffers_modes[buffer_number] = "read"
         elif(mode=="write"):  #if mode changed to "write"
             file.seek(0,2)      #move file cursor to the end of the file
             buffers[buffer_number].clear()
-            buffers_modes[buffer_number] = mode
+            buffers_modes[buffer_number] = "write"
         else:
-            print("Incorrect buffer mode")
+            assert False, "Incorrect buffer mode used!"
 
 def select_buffer_number(file):
     file_name_no_ext = file.name[:-4]

@@ -1,23 +1,53 @@
 from record import record as record
 from block_rw import read_record, write_record, set_buffer_mode
+from util import print_file
 
 def sort(file):
-    set_buffer_mode(0, "write", file)
-    set_buffer_mode(0, "read", file)
+    file_sorted = False
+    phase_number = 1
+    # set_buffer_mode(0, "write", file)
+    # set_buffer_mode(0, "read", file)
+    set_buffer_mode(0, "read_from_beginning", file)
     tape1 = open("tape1.dat", "w+b")
     tape2 = open("tape2.dat", "w+b")
-    tape3 = open("tape3.dat", "w+b")
-    distribute(file, tape1, tape2)
-    merge(tape1, tape2, file)
+    tape3 = open("tape3.dat", "w+b")  
+    while(file_sorted==False):
+        print("Phase "+str(phase_number)+":")
+
+        distribute(file, tape1, tape2)
+
+        print("Tape 1:")
+        print_file(tape1)
+        print("Tape 2:")
+        print_file(tape2)
+
+        set_buffer_mode(1,"read_from_beginning",tape1)
+        set_buffer_mode(2,"read_from_beginning",tape2)
+
+        file_sorted = merge(tape1, tape2, file)
+
+        print("Tape 3:")
+        print_file(file)
+
+        set_buffer_mode(0,"read_from_beginning",file)
+
+        phase_number+=1
+        
+
     tape1.close()
     tape2.close()
     tape3.close()
-    set_buffer_mode(0, "write", file)
-    set_buffer_mode(0, "read", file)
+    # set_buffer_mode(0, "write", file)
+    # set_buffer_mode(0, "read", file)
+    set_buffer_mode(0, "read_from_beginning", file)
 
 
 
 def distribute(src_tape, dest_tape_1, dest_tape_2):
+    dest_tape_1.truncate(0)
+    dest_tape_1.seek(0)
+    dest_tape_2.truncate(0)
+    dest_tape_2.seek(0)
     curr_record = read_record(src_tape)
     next_record = read_record(src_tape)
     dest_tapes = [dest_tape_1, dest_tape_2]
@@ -61,6 +91,7 @@ def merge(src_tape_1, src_tape_2, dest_tape):
             else:
                 write_record(dest_tape, record2)
                 record2 = read_record(src_tape_2)
+    return file_sorted
 
     
 
