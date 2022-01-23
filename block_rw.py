@@ -1,6 +1,6 @@
 import record as r
 
-BLOCK_LENGTH = 1    #number of records in one block
+BLOCK_LENGTH = 10    #number of records in one block
 BLOCK_SIZE = r.RECORD_SIZE*BLOCK_LENGTH     #block size in bytes
 NUMBER_OF_BUFFERS = 4
 
@@ -53,6 +53,10 @@ def write_buffer_to_file(data_file, buffer_number):
         file.write(bytes(record))
     file.flush()
     records_list.clear()
+
+def start_reading_from_beginning(file):
+    buffer_number = select_buffer_number(file)
+    set_buffer_mode(buffer_number,"read_from_beginning",file)
 
 def set_buffer_mode(buffer_number, mode, file):
     if(buffers_modes[buffer_number]==mode):

@@ -1,45 +1,62 @@
 from record import record as record
-from block_rw import read_record, write_record, set_buffer_mode
-from util import print_file
+from block_rw import read_record, start_reading_from_beginning, write_record
+from interface import print_file
 
-def sort(file):
+def sort(file, show_phases=False):
+    print()
+    print("File before sorting:")
+    start_reading_from_beginning(file)
+    print_file(file)
+    print("Sorting file...")
     file_sorted = False
-    phase_number = 1
-    # set_buffer_mode(0, "write", file)
-    # set_buffer_mode(0, "read", file)
-    set_buffer_mode(0, "read_from_beginning", file)
+    phase_number = 0
+
+    start_reading_from_beginning(file)
     tape1 = open("tape1.dat", "w+b")
     tape2 = open("tape2.dat", "w+b")
-    tape3 = open("tape3.dat", "w+b")  
     while(file_sorted==False):
-        print("Phase "+str(phase_number)+":")
+        
 
         distribute(file, tape1, tape2)
 
-        print("Tape 1:")
-        print_file(tape1)
-        print("Tape 2:")
-        print_file(tape2)
-
-        set_buffer_mode(1,"read_from_beginning",tape1)
-        set_buffer_mode(2,"read_from_beginning",tape2)
-
         file_sorted = merge(tape1, tape2, file)
 
-        print("Tape 3:")
-        print_file(file)
+        start_reading_from_beginning(tape1)
+        start_reading_from_beginning(tape2)
 
-        set_buffer_mode(0,"read_from_beginning",file)
+        if(file_sorted==False):
+            phase_number+=1
+            if(show_phases==True):
+                print()          
+                print("Phase "+str(phase_number)+":")
+                print("Tape 1:")
+                print_file(tape1)
+                print("Tape 2:")
+                print_file(tape2)
+                print("Tape 3:")
+                print_file(file)        
+                start_reading_from_beginning(tape1)
+                start_reading_from_beginning(tape2)
+                start_reading_from_beginning(file)
+            
 
-        phase_number+=1
+            
         
+            
+
+        
+
+    print()    
+    print("File sorted")
+    print("File after sorting:")
+    start_reading_from_beginning(file)
+    print_file(file)
+    print("Number of phases: "+str(phase_number))
+    
 
     tape1.close()
     tape2.close()
-    tape3.close()
-    # set_buffer_mode(0, "write", file)
-    # set_buffer_mode(0, "read", file)
-    set_buffer_mode(0, "read_from_beginning", file)
+    start_reading_from_beginning(file)
 
 
 
@@ -70,14 +87,15 @@ def distribute(src_tape, dest_tape_1, dest_tape_2):
     pass
 
 def merge(src_tape_1, src_tape_2, dest_tape):
-    dest_tape.truncate(0)
-    dest_tape.seek(0)
+    
     record1 = read_record(src_tape_1)
     record2 = read_record(src_tape_2)
     if(record1==None or record2==None):
         file_sorted = True
     else:
         file_sorted = False
+        dest_tape.truncate(0)
+        dest_tape.seek(0)
         while(record1!=None or record2!=None):
             if(record2==None):
                 write_record(dest_tape, record1)

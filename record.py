@@ -46,9 +46,9 @@ class record:
 def createRandomRecords(quantity):
     recordsList = []
     for i in range(quantity):
-        c = random.randrange(1,10)
-        m = random.randrange(1,10)
-        dT = random.randrange(1,10)
+        c = random.randrange(1,20)
+        m = random.randrange(1,20)
+        dT = random.randrange(1,20)
         recordsList.append(record(c,m,dT))
     return recordsList
 
