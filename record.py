@@ -1,6 +1,4 @@
-from ctypes import c_byte
 import random as random
-import sys
 
 INT_SIZE = 4
 

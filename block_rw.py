@@ -1,8 +1,8 @@
 import record as r
 
-BLOCK_LENGTH = 10    #number of records in one block
+BLOCK_LENGTH = 50    #number of records in one block
 BLOCK_SIZE = r.RECORD_SIZE*BLOCK_LENGTH     #block size in bytes
-NUMBER_OF_BUFFERS = 4
+NUMBER_OF_BUFFERS = 3
 
 #records_list = []   #the buffer for reading and writing
 buffers = [ [] for _ in range(NUMBER_OF_BUFFERS) ]

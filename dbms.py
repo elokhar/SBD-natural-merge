@@ -1,6 +1,6 @@
 from record import record as record
 from block_rw import read_record, start_reading_from_beginning, write_record
-from interface import print_file
+from printing import print_file
 
 def sort(file, show_phases=False):
     print()
