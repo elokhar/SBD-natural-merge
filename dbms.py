@@ -3,6 +3,7 @@ from record import record as record
 from block_rw import read_record, start_reading_from_beginning, write_record
 from printing import print_file
 
+
 def sort(file, show_phases=False):
     print()
     print("File before sorting:")
@@ -117,11 +118,8 @@ def merge(src_tape_1, src_tape_2, dest_tape):
                 write_record(dest_tape, tape2_curr)
                 tape2_curr = tape2_next
                 tape2_next = read_record(src_tape_2)
-
-
     return file_sorted
-
-    
+  
 
 def check_run_end(curr_record, next_record):
     if(next_record==None):

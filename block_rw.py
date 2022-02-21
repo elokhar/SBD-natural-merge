@@ -3,8 +3,6 @@ import record as r
 BLOCK_LENGTH = 50    #number of records in one block
 BLOCK_SIZE = r.RECORD_SIZE*BLOCK_LENGTH     #block size in bytes
 NUMBER_OF_BUFFERS = 3
-
-#records_list = []   #the buffer for reading and writing
 buffers = [ [] for _ in range(NUMBER_OF_BUFFERS) ]
 buffers_modes = [ "read" for _ in range(NUMBER_OF_BUFFERS) ]
 
@@ -35,7 +33,7 @@ def read_block_to_buffer(data_file, buffer_number):
     file = data_file
     record_bytes = file.read(r.RECORD_SIZE)
     
-    if(record_bytes==b''): #if there is no more data to read, the function returns reads nothing and returns False
+    if record_bytes==b'': #if there is no more data to read, the function returns reads nothing and returns False
         return False
     else:
         records_list.append(r.record.from_bytes(record_bytes))

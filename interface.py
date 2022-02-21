@@ -42,8 +42,7 @@ def run_interface(database, input_file=None):
                     run_interface(database, test_file)
                     test_file.close()
                 else:
-                    print("No such file exists!")
-    
+                    print("No such file exists!")   
             case "sort":
                 sort(database)
             case "sort -p":
@@ -57,7 +56,7 @@ def run_interface(database, input_file=None):
                 print("Invalid command used")
     
             
-            
+          
 def record_from_string(record_str):
     parameters = []
     curr_parameter_str = ""
@@ -77,7 +76,6 @@ def record_from_string(record_str):
         return None  
 
             
-
 def add_random_records(file, records_number):
     records = r.createRandomRecords(records_number)
     for record in records:
